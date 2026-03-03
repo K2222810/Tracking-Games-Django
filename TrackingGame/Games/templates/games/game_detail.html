@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ game.game.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ game.game.title }}</h1>
+<p>Status: {{ game.get_status_display }}</p>
+<p>Rank: {{ game.rank|default:'—' }}</p>
+
+<h3>Progress</h3>
+<ul class="list-group">
+  {% for p in game.progress_entries.all %}
+    <li class="list-group-item">
+      <strong>{{ p.updated_at }}</strong> — {{ p.hours_played|default:'0' }} hours
+      <div>{{ p.progress_note }}</div>
+    </li>
+  {% empty %}
+    <li class="list-group-item">No progress yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
