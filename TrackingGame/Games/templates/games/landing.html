@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome - Tracking Games{% endblock %}
+
+{% block content %}
+<div class="px-4 py-5 my-5 text-center">
+  <h1 class="display-5 fw-bold">Track your games, simply.</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">Log your backlog, follow progress and save favourites — all in one place.</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'signup' %}">Sign up</a>
+      <a class="btn btn-outline-secondary btn-lg px-4" href="{% url 'login' %}">Sign in</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block brand %}
+  <a class="navbar-brand" href="{% url 'home' %}">
+    <img src="{% static 'games/images/games-svgrepo-com.svg' %}" alt="Games logo" style="height:24px;" class="me-2">
+    Tracking Games
+  </a>
+{% endblock %}
+
+{% block nav_links %}
+  <ul class="navbar-nav ms-auto">
+    <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Sign up</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Sign in</a></li>
+  </ul>
+{% endblock %}

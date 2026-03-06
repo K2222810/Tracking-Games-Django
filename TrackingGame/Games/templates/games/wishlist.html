@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Wishlist{% endblock %}
+
+{% block content %}
+<h1>Wishlist</h1>
+{% if user.is_authenticated %}
+  <p><a class="btn btn-sm btn-primary" href="{% url 'game-create' %}">Add game</a></p>
+{% endif %}
+<ul class="list-group">
+  {% for g in games %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3 w-100">
+        <form method="post" action="{% url 'wishlist-toggle' g.pk %}" class="m-0 p-0">
+          {% csrf_token %}
+          <input type="checkbox" name="purchased" onchange="this.form.submit()" aria-label="Mark {{ g.title }} as purchased">
+        </form>
+        <div class="flex-grow-1">
+          <a href="{% url 'game-detail' g.pk %}">{{ g.title }}</a>
+          <div class="text-muted small">{{ g.platform }}{% if g.release_date %} — {{ g.release_date }}{% endif %}</div>
+          {% if g.price %}<div class="small">Price: ${{ g.price }}</div>{% endif %}
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'game-update' g.pk %}">Edit</a>
+          <a class="btn btn-sm btn-outline-danger" href="{% url 'game-delete' g.pk %}">Delete</a>
+        </div>
+      </div>
+    </li>
+  {% empty %}
+    <li class="list-group-item">No wishlist items yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

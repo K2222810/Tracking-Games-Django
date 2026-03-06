@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <h1>Dashboard</h1>
+    <p class="lead">Overview of your games and wish list.</p>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-8">
+    <h3>Your Games</h3>
+    <div class="row">
+      {% for g in games %}
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          {% if g.cover_url %}
+            <img src="{{ g.cover_url }}" class="card-img-top" alt="{{ g.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ g.title }}</h5>
+            <p class="card-text">Status: {{ g.get_status_display }}</p>
+            {% if g.rank %}<p class="card-text">Rank: {{ g.rank }}</p>{% endif %}
+            <a href="{% url 'game-detail' g.pk %}" class="btn btn-sm btn-primary">View</a>
+            <a href="{% url 'game-update' g.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>You have no games yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <h3>Wish List</h3>
+    <ul class="list-group">
+      {% for w in wishlist %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>{{ w.title }}</span>
+          <a href="{% url 'game-detail' w.pk %}" class="btn btn-sm btn-link">View</a>
+        </li>
+      {% empty %}
+        <li class="list-group-item">Your wish list is empty.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}
