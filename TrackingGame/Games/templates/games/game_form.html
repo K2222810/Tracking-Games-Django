@@ -1,25 +1,22 @@
 {% extends 'base.html' %}
-{% load static %}
 
-{% block title %}Add Game{% endblock %}
+{% block title %}{% if form.instance.pk %}Edit Game{% else %}Add Game{% endif %}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-8">
-    <h2>Add game</h2>
-    <form method="post" class="form-container">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <div class="d-flex gap-2">
-        <button class="btn btn-primary" type="submit" name="save">Save</button>
-        {% if not form.instance.pk %}
-          <button class="btn btn-secondary" type="submit" name="add_to_wishlist">Add to Wishlist</button>
-        {% else %}
-          <button class="btn btn-success" type="submit" name="mark_purchased">Mark as Purchased</button>
-          <a class="btn btn-danger" href="{% url 'game-delete' form.instance.pk %}">Delete</a>
-        {% endif %}
-      </div>
-    </form>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">{% if form.instance.pk %}Edit Game{% else %}Add Game{% endif %}</h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="top-medium">
+          <button class="action-primary" type="submit">Save</button>
+          {% if not form.instance.pk %}
+            <button name="add_to_wishlist" value="1" class="action-primary left-small" type="submit">Add to Wishlist</button>
+          {% endif %}
+          <a class="action-secondary" href="{% url 'game-list' %}">Cancel</a>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 {% endblock %}

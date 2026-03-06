@@ -4,17 +4,78 @@
 
 {% block content %}
 <h1>{{ game.title }}</h1>
-<p>Status: {{ game.get_status_display }}</p>
-<p>Rank: {{ game.rank|default:'—' }}</p>
+
+<p>Status: {{ game.get_status_display }} — Rank: {{ game.rank|default:'—' }}</p>
+
 <h3>Progress</h3>
-<ul class="list-group">
+<ul class="list">
   {% for p in game.progress_entries.all %}
-    <li class="list-group-item">
-      <strong>{{ p.updated_at }}</strong> — {{ p.hours_played|default:'0' }} hours
-      <div>{{ p.progress_note }}</div>
+    <li class="list-item" id="progress-{{ p.pk }}">
+      <div><strong>{{ p.updated_at }}</strong></div>
+      {% if p.hours_played %}<div>{{ p.hours_played }} hours</div>{% endif %}
+      {% if p.progress_note %}<div class="muted">{{ p.progress_note }}</div>{% endif %}
+      <form method="post" action="{% url 'game-delete-progress' p.pk %}" style="display:inline">
+        {% csrf_token %}
+        <button class="action-danger" type="submit">Delete</button>
+      </form>
     </li>
   {% empty %}
-    <li class="list-group-item">No progress yet.</li>
+    <li class="list-item">No progress yet.</li>
   {% endfor %}
 </ul>
+
+<h4>Track</h4>
+<form method="post" action="{% url 'game-add-progress' game.pk %}">
+  {% csrf_token %}
+  <button name="delta" value="1" class="action-primary" type="submit">+1</button>
+  <button name="delta" value="-1" class="action-secondary" type="submit">-1</button>
+  <div>
+    <label>Note</label>
+    <textarea name="note" rows="2" class="form-control"></textarea>
+  </div>
+  <div>
+    <label>Hours</label>
+    <input name="hours" type="number" min="0" class="form-control" />
+  </div>
+  <button class="action-primary" type="submit">Save</button>
+</form>
+
+<h3>Reviews</h3>
+<ul class="list">
+  {% for r in game.reviews.all %}
+    <li class="list-item" id="review-{{ r.pk }}">
+      <div>
+        {% for _ in "12345" %}
+          {% if forloop.counter <= r.rating %}
+            <span style="color:gold;">★</span>
+          {% else %}
+            <span style="color:#ddd;">☆</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if r.comment %}<div class="muted">{{ r.comment }}</div>{% endif %}
+      <div class="small-text">{{ r.created_at }} {% if r.user == user %}- <form method="post" action="{% url 'game-delete-review' r.pk %}" style="display:inline">{% csrf_token %}<button class="action-danger" type="submit">Delete</button></form>{% endif %}</div>
+    </li>
+  {% empty %}
+    <li class="list-item">No reviews yet.</li>
+  {% endfor %}
+</ul>
+
+<h4>Add review</h4>
+<form method="post" action="{% url 'game-add-review' game.pk %}">
+  {% csrf_token %}
+  <label>Rating</label>
+  <select name="rating">
+    <option value="5">5</option>
+    <option value="4">4</option>
+    <option value="3">3</option>
+    <option value="2">2</option>
+    <option value="1">1</option>
+  </select>
+  <div>
+    <label>Comment</label>
+    <textarea name="comment" rows="3" class="form-control"></textarea>
+  </div>
+  <button class="action-primary top-small" type="submit">Submit review</button>
+</form>
 {% endblock %}
