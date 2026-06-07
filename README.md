@@ -1,119 +1,88 @@
-# Tracking-Games-Django
+# Tracking Games Django
+A web app for tracking your game collection, wishlist, play status, progress, and reviews.
 
-A Django web app for tracking your game collection, wishlist, play status, progress, and reviews.
+## Screenshot/Logo
+<img width="1021" height="1253" alt="image" src="https://github.com/user-attachments/assets/d362b8a2-67ad-4c9b-86bf-7fc515004c8e" />
 
-## ✨ Technologies
 
-- **Django 5.2.11**
-- **Python 3.11**
-- **PostgreSQL**
-- **HTML / CSS / JavaScript** (Django templates + static files)
-- **WhiteNoise** (static files in production)
-- **Gunicorn** (production WSGI server)
-- **python-dotenv** (load environment variables from `.env`)
-- **dj-database-url** (database config from `DATABASE_URL`)
+## Description
+Tracking Games Django is a full-stack Django project built to help users keep track of the games they own, want to play, or are currently playing. Users can add games, update their status, log progress, and leave reviews.
 
-## 🚀 Features
+This project was a good way to practice Django, user authentication, CRUD features, working with databases, and building a more complete full-stack app.
 
-- **Authentication**: sign up, login, logout
-- **Game CRUD**: add, edit, view, and delete games
-- **Status tracking**: *backlog*, *playing*, *completed*, *dropped*
-- **Wishlist**: keep games you want to play later and move them into *playing*
-- **Progress tracking**: add progress notes and track hours played over time
-- **Reviews**: rate games (1–5) and leave comments
-- **Dashboard**: quick view of owned games + wishlist
-- **AJAX support** for progress + review actions (add/edit/delete) without full page refresh
-- **User isolation**: you can only view/edit your own games
+## Deployment Link
+**Live App:**  
+[https://tracking-game-app-56704e1f5fc3.herokuapp.com/](https://tracking-game-app-56704e1f5fc3.herokuapp.com/)
 
-## 🛠️ The Process
+## Planning
+Before building, the main focus was deciding what features a game tracker needed and how users would move through the app.
 
-This project was built as a simple “personal game tracker” to practice full-stack Django development.
+Planning included:
 
-The core workflow is:
+- Deciding on the main game statuses
+- Planning CRUD features for games
+- Adding progress tracking and reviews
+- Thinking about user accounts and login flow
+- Making sure each user could only manage their own data
 
-1. **Users create an account and log in**.
-2. They **add games** and assign a **status** (backlog/playing/completed/dropped).
-3. A game can have multiple **progress entries** (notes + hours played) that get stored and displayed in reverse chronological order.
-4. Users can also leave **reviews** with a rating and comment.
-5. Some actions (progress + reviews) support **AJAX requests** so the UI can update smoothly.
+## Brief
+The goal of this project was to build a Django web app with authentication and full CRUD functionality.
 
-## ▶️ Running the Project
+The app needed to let users manage their own game list, keep track of progress, and organise games by status in a simple and useful way.
 
-### 1) Clone the repository
+## Build Process
+The project started with setting up the Django app, database, and user authentication. After that, the main game model and CRUD functionality were built so users could add, edit, view, and delete games.
 
-```bash
-git clone https://github.com/K2222810/Tracking-Games-Django.git
-cd Tracking-Games-Django
-```
+Once the main features were working, progress tracking and review features were added. The app was then improved with dashboard views, user-specific data protection, and smoother actions for some updates.
 
-### 2) Create + activate a virtual environment
+## Technologies Used
+**Back End**
+- Python
+- Django
+- PostgreSQL
 
-```bash
-python -m venv venv
-source venv/bin/activate   # macOS/Linux
-venv\Scripts\activate      # Windows
-```
+**Front End**
+- HTML
+- CSS
+- JavaScript
+- Django Templates
 
-### 3) Install dependencies
+**Other Tools & Practices**
+- User authentication
+- CRUD operations
+- AJAX
+- WhiteNoise
+- Gunicorn
 
-This repo uses **Pipenv** (there’s a `Pipfile`), so the recommended install is:
+## Key Highlights
+- Full CRUD for games
+- User authentication with login and signup
+- Status tracking for backlog, playing, completed, and dropped
+- Progress notes and hours played
+- Reviews with ratings and comments
+- User-owned data protection
 
-```bash
-pip install pipenv
-pipenv install
-pipenv shell
-```
+## Challenges
+- Managing multiple features in one app
+- Keeping game data, progress, and reviews connected clearly
+- Making sure users could only access their own content
+- Handling both full-page and AJAX-based updates
 
-### 4) Configure environment variables
+## Wins
+- Built a full-stack Django app with several connected features
+- Improved my understanding of authentication and user data
+- Added more depth with progress tracking and reviews
+- Created a project that feels useful and practical
 
-Create a `.env` file in the project root:
+## Key Learnings / Takeaways
+- Better understanding of Django project structure
+- More confidence with models, views, and templates
+- Improved knowledge of authentication and database work
+- Learned how to connect different features into one app
 
-```env
-SECRET_KEY=your-secret-key
-```
-
-Notes:
-- Locally, `DEBUG` defaults to `True` unless `ON_HEROKU` is set.
-- In production, you should set `ON_HEROKU=1` (or replace this with your own env flag).
-
-### 5) Configure the database
-
-**Local (current settings):** the project is configured to use **PostgreSQL** with the DB name `TrackingGameDataBase`.
-
-Make sure PostgreSQL is installed and you have a database created:
-
-```bash
-createdb TrackingGameDataBase
-```
-
-(If your local Postgres setup requires a username/password/host, you’ll want to update `trackingGame/settings.py` to include those fields.)
-
-### 6) Run migrations
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-### 7) Create an admin user (optional)
-
-```bash
-python manage.py createsuperuser
-```
-
-### 8) Start the dev server
-
-```bash
-python manage.py runserver
-```
-
-Open: `http://127.0.0.1:8000/`
-
-## 📌 Notes (Deployment)
-
-- Production server: `gunicorn` (`Procfile` uses `web: gunicorn trackingGame.wsgi`)
-- For Heroku-style deployment:
-  - set `ON_HEROKU=1`
-  - set `DATABASE_URL` (used by `dj-database-url`)
-  - run `python manage.py collectstatic`
-
+## Things I Could Have Done Better
+- I could have improved the visual design more
+- I could have made the dashboard clearer and more polished
+- I could have added better filtering or sorting for games
+- I could have improved the mobile experience
+- I could have added more detail to the review and tracking features
